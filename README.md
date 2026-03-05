@@ -17,9 +17,9 @@ If you find our work helpful, please give us a ⭐.
 </div>
 
 ## 🎉 News
-- **[2026/03/05]** 🔥InternVL-U technical report released. 
-- **[2026/03/05]** ✨Inference code and model checkpoint released.
-- **[2026/03/05]** 🛠️UMMEvalKit and TextEdit Benchmark released.
+- **[2026/03/06]** 🔥InternVL-U technical report released. 
+- **[2026/03/06]** ✨Inference code and model checkpoint released.
+- **[2026/03/06]** 🛠️UMMEvalKit and TextEdit Benchmark released.
 
 
 ## 📖 Introduction
