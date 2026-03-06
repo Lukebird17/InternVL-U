@@ -6,7 +6,7 @@
 <div align="center">
 
 [![arXiv](https://img.shields.io/badge/ArXiv-Coming%20Soon-b31b1b?logo=arxiv)](#)&nbsp;
-[![Hugging Face](https://img.shields.io/badge/🤗%20Model-InternVL--U-yellow)](https://huggingface.co/OpenGVLab/InternVL-U)&nbsp;
+[![Hugging Face](https://img.shields.io/badge/🤗%20Model-InternVL--U-yellow)](https://huggingface.co/InternVL-U/InternVL-U)&nbsp;
 [![GenEditEvalKit](https://img.shields.io/badge/GitHub-GenEditEvalKit-181717?logo=github)](https://github.com/open-compass/GenEditEvalKit)&nbsp;
 [![TextEdit Benchmark](https://img.shields.io/badge/GitHub-TextEdit%20Benchmark-181717?logo=github)](https://github.com/open-compass/TextEdit)
 
