@@ -49,6 +49,8 @@ Model checkpoint is available on [Hugging Face](https://huggingface.co/InternVL-
 ### Inference Demo
 We provide the following demos to showcase InternVL-U’s unified pipeline for multimodal understanding, image generation, and image editing, with optional reasoning-guided (text+image) outputs.
 
+**Tips**: During image generation or editing, if `generation_mode` is set to `"image"`, the CoT text reasoning mode will not be activated. We recommend this mode for most scenarios, especially simple scenes and instructions, as it can already produce good results. When the user input involves more challenging reasoning, we recommend setting `generation_mode` to `"text_image"` to enable more complex generation.
+
 <details>
 <summary><b>Generate Text</b> - Click to expand</summary>
 
@@ -261,14 +263,11 @@ for idx, image in enumerate(output_images):
 If you find our InternVL-U useful, please cite our InternVL-U technical report using this BibTeX.
 
 ```bibtex
-@article{tian2026internvlu,
-      title={InternVL-U: Democratizing Unified Multimodal Models for Understanding, Reasoning, Generation and Editing},
-      author={Tian, Changyao and Yang, Danni and Chen, Guanzhou and Cui, Erfei and Wang, Zhaokai and Duan, Yuchen and Yin, Penghao and Chen, Sitao and Yang, Ganlin and Liu, Mingxin and Zhu, Zirun and Fan, Ziqian and Gu, Leyao and Wang, Haomin and Wei, Qi and Yin, Jinhui and Yang, Xue and Zhong, Zhihang and Qin, Qi and Xin, Yi and Fu, Bin and Liu, Yihao and Ge, Jiaye and Guo, Qipeng and Luo, Gen and Li, Hongsheng and Qiao, Yu and Chen, Kai and Zhang, Hongjie},
-      year={2026},
-      eprint={2603.09877},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2603.09877}
+@article{tian2026internvl,
+  title={InternVL-U: Democratizing Unified Multimodal Models for Understanding, Reasoning, Generation and Editing},
+  author={Tian, Changyao and Yang, Danni and Chen, Guanzhou and Cui, Erfei and Wang, Zhaokai and Duan, Yuchen and Yin, Penghao and Chen, Sitao and Yang, Ganlin and Liu, Mingxin and others},
+  journal={arXiv preprint arXiv:2603.09877},
+  year={2026}
 }
 ```
 
