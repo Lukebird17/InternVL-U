@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.svg
+*.webp
+
+# Data & outputs
+*.json
+*.jsonl
+*.csv
+*.tsv
+*.parquet
+*.arrow
+
+# Model weights & checkpoints
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# PDF & docs
+*.pdf
+
+# Directories
+model/
+eval_outputs/
+quantization/quantization_outputs/
+assets/
+
+# HuggingFace cache
+.cache/
+
+# Logs
+*.log
+wandb/
+runs/
+logs/
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env
