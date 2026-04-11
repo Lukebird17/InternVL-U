@@ -1408,6 +1408,11 @@ class HybridQuantLinear(nn.Module):
         # 🔥 直接使用传入的激活数据（从 Stage 实例变量传递）
         local_activation_max = activation_max
         local_activation_data = activation_data
+
+        # SmoothQuant 的 act_channel_max 常由 torch.load(map_location="cpu") 得到；
+        # 必须与权重同设备，否则与 weight_max（来自 CUDA 上的 current_weight）混用会报错。
+        if local_activation_max is not None and isinstance(local_activation_max, torch.Tensor):
+            local_activation_max = local_activation_max.to(self.weight.device)
         
         # 🔥 统一激活数据处理：如果有完整激活数据但没有 activation_max，自动计算
         # 这样 SmoothQuant、GPTQ 和 extract_outliers 可以共享同一份数据
@@ -1419,9 +1424,9 @@ class HybridQuantLinear(nn.Module):
             if verbose and self.use_smoothquant:
                 print(f"  [SmoothQuant] Auto-computed activation_max from activation_data")
                 print(f"    activation_max range: [{local_activation_max.min().item():.6f}, {local_activation_max.max().item():.6f}]")
-        if self.use_gptq:
+        if self.use_gptq and verbose:
             has_activation_data = local_activation_data is not None
-            print(f"[DEBUG] use_gptq=True, has_activation_data={has_activation_data}, layer_name={layer_name}")
+            print(f"  [GPTQ] has_activation_data={has_activation_data}, layer_name={layer_name}")
         if verbose:
             print(f"\nPreparing weight for {self.__class__.__name__}:")
             print(f"  Config: sparse={self.use_sparse}, smooth={self.use_smoothquant}, "

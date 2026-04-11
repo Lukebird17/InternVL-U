@@ -380,8 +380,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Build multi-type VQA calibration dataset from Flickr8K"
     )
-    parser.add_argument("--flickr8k_root", type=str,
-                        default="/data/14thdd/users/yongsencheng/Bagel/data/flickr8k",
+    parser.add_argument("--flickr8k_root", type=str, required=True,
                         help="Path to Flickr8K dataset root (with Images/ and captions.txt)")
     parser.add_argument("--output_dir", type=str, default=None,
                         help="Output directory (default: quantization_outputs/calibration_data)")

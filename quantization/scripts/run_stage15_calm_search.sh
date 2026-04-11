@@ -4,7 +4,7 @@
 
 # ===================== 配置 =====================
 
-MODEL_PATH="/data/14thdd/users/honglianglu/InternVL-U/model"
+MODEL_PATH="/home/honglianglu/data/InternVL-U/model"
 
 # GPTQ/AWQ 激活数据（由 stage0 生成，无则自动排除 GPTQ/AWQ 算法）
 # 自动检测 stage0 输出

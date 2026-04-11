@@ -5,7 +5,7 @@
 
 # ===================== 配置 =====================
 
-MODEL_PATH="/data/14thdd/users/honglianglu/InternVL-U/model"
+MODEL_PATH="/home/honglianglu/data/InternVL-U/model"
 
 QUANT_ROOT_TMP="$(cd "$(dirname "$0")/.." && pwd)"
 ACTIVATION_DATA="${QUANT_ROOT_TMP}/quantization_outputs/stage0_full_activation/stage0_full_activation_50samples_latest.pt"

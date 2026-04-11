@@ -57,7 +57,7 @@ class LinearCKA:
         denom = (hsic_kk * hsic_ll) ** 0.5
         if denom < 1e-10:
             return 0.0
-        return hsic_kl / denom
+        return min(hsic_kl / denom, 1.0)
 
     @staticmethod
     def compute_batched(
@@ -98,7 +98,7 @@ class LinearCKA:
 
             denom = (hsic_kk * hsic_ll) ** 0.5
             if denom > 1e-10:
-                cka_scores.append(hsic_kl / denom)
+                cka_scores.append(min(hsic_kl / denom, 1.0))
 
             del K, L, X_batch, Y_batch
 
@@ -156,7 +156,7 @@ class CombinedSimilarity:
         denom = (hsic_kk * hsic_ll) ** 0.5
         if denom < 1e-10:
             return 0.0
-        return hsic_kl / denom
+        return min(hsic_kl / denom, 1.0)
 
     @staticmethod
     def _cosine(X: torch.Tensor, Y: torch.Tensor) -> float:

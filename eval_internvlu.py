@@ -33,7 +33,7 @@ import torch
 from PIL import Image
 from tqdm import tqdm
 
-BAGEL_DIR = Path("/data/14thdd/users/honglianglu/Bagel")
+BAGEL_DIR = Path("/data/user/honglianglu/Bagel")
 SCRIPT_DIR = Path(__file__).resolve().parent
 
 # GenEval 目标检测用的 mmdetection config（mask2former）
@@ -497,12 +497,16 @@ def run_geneval(pipeline, output_dir: Path, resolution: int = 1024,
             if not mmdet_config.exists():
                 print(f"[WARN] mmdetection config not found: {mmdet_config}, set MMDETECTION_DIR or place mmdetection next to Bagel.")
             nproc = min(2, torch.cuda.device_count())
+            torchrun_bin = str(Path(sys.executable).parent / "torchrun")
+            if not Path(torchrun_bin).exists():
+                torchrun_bin = "torchrun"
+            master_port = int(os.environ.get("GENEVAL_MASTER_PORT", "29502"))
             cmd = [
-                "torchrun",
+                torchrun_bin,
                 "--nnodes=1", "--node_rank=0",
                 f"--nproc_per_node={nproc}",
                 "--master_addr=127.0.0.1",
-                "--master_port=29502",
+                f"--master_port={master_port}",
                 str(eval_script),
                 str(geneval_output_dir.resolve()),
                 "--outfile", str(results_file.resolve()),

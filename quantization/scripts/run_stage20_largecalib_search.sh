@@ -17,7 +17,7 @@
 
 # ===================== 配置 =====================
 
-MODEL_PATH="/data/14thdd/users/honglianglu/InternVL-U/model"
+MODEL_PATH="/home/honglianglu/data/InternVL-U/model"
 
 QUANT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUTPUT_DIR="${QUANT_ROOT}/quantization_outputs/stage20_largecalib"

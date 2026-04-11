@@ -36,7 +36,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 QUANT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-MODEL_PATH="/data/14thdd/users/honglianglu/InternVL-U/model"
+MODEL_PATH="/home/honglianglu/data/InternVL-U/model"
 CONFIG_DIR="${QUANT_ROOT}/quantization_outputs/configs"
 EVAL_SCRIPT="${PROJECT_ROOT}/eval_internvlu.py"
 OUTPUT_BASE="${QUANT_ROOT}/quantization_outputs/eval_results"
@@ -64,7 +64,7 @@ GENEVAL_STEPS=20
 
 # ===================== 解析参数 =====================
 
-FILTER="${1:-all}"          # all / w4a4 / w3a4 / baseline / stage19 / stage20
+FILTER="${1:-all}"          # all / w4a4 / w3a4 / baseline / stage19 / stage20 / stage21 / stage23 / stage24 / stage25
 BENCH_FILTER="${2:-both}"   # both / mme / geneval
 CONFIG_DATE="${3:-}"        # 可选：指定配置日期 (YYYYMMDD)，stage19/20 专用
 
@@ -117,6 +117,42 @@ find_stage21_date() {
     fi
 }
 
+# Stage23 日期配置自动发现
+find_stage23_date() {
+    local latest=""
+    for f in "${CONFIG_DIR}"/stage23_modality_weighted_w4a4_*.json; do
+        [ -f "$f" ] && latest="$f"
+    done
+    if [ -n "$latest" ]; then
+        local base="$(basename "$latest" .json)"
+        echo "${base##*_}"
+    fi
+}
+
+# Stage24 日期配置自动发现
+find_stage24_date() {
+    local latest=""
+    for f in "${CONFIG_DIR}"/stage24_attn_fidelity_w4a4_*.json; do
+        [ -f "$f" ] && latest="$f"
+    done
+    if [ -n "$latest" ]; then
+        local base="$(basename "$latest" .json)"
+        echo "${base##*_}"
+    fi
+}
+
+# Stage25 日期配置自动发现
+find_stage25_date() {
+    local latest=""
+    for f in "${CONFIG_DIR}"/stage25_hard_w4a4_*.json; do
+        [ -f "$f" ] && latest="$f"
+    done
+    if [ -n "$latest" ]; then
+        local base="$(basename "$latest" .json)"
+        echo "${base##*_}"
+    fi
+}
+
 if [ "$FILTER" = "baseline" ]; then
     add_task "fp_baseline" ""
 elif [ "$FILTER" = "stage21" ]; then
@@ -135,6 +171,32 @@ elif [ "$FILTER" = "stage20" ]; then
     fi
     cfg_file="${CONFIG_DIR}/stage20_largecalib_w4a4_${S20_DATE}.json"
     add_task "stage20_largecalib_w4a4_${S20_DATE}" "$cfg_file"
+elif [ "$FILTER" = "stage23" ]; then
+    S23_DATE="${CONFIG_DATE:-$(find_stage23_date)}"
+    if [ -z "$S23_DATE" ]; then
+        echo "Error: No stage23 config found. Run stage23 search first or pass date as 3rd arg."
+        exit 1
+    fi
+    cfg_file="${CONFIG_DIR}/stage23_modality_weighted_w4a4_${S23_DATE}.json"
+    add_task "stage23_modality_weighted_w4a4_${S23_DATE}" "$cfg_file"
+elif [ "$FILTER" = "stage24" ]; then
+    S24_DATE="${CONFIG_DATE:-$(find_stage24_date)}"
+    if [ -z "$S24_DATE" ]; then
+        echo "Error: No stage24 config found. Run stage24 search first or pass date as 3rd arg."
+        exit 1
+    fi
+    cfg_file="${CONFIG_DIR}/stage24_attn_fidelity_w4a4_${S24_DATE}.json"
+    add_task "stage24_attn_fidelity_w4a4_${S24_DATE}" "$cfg_file"
+elif [ "$FILTER" = "stage25" ]; then
+    S25_DATE="${CONFIG_DATE:-$(find_stage25_date)}"
+    if [ -z "$S25_DATE" ]; then
+        echo "Error: No stage25 config found. Run stage25 search first or pass date as 3rd arg."
+        exit 1
+    fi
+    cfg_file="${CONFIG_DIR}/stage25_hard_w4a4_${S25_DATE}.json"
+    add_task "stage25_hard_w4a4_${S25_DATE}" "$cfg_file"
+    cfg_file="${CONFIG_DIR}/stage25_random_w4a4_${S25_DATE}.json"
+    add_task "stage25_random_w4a4_${S25_DATE}" "$cfg_file"
 elif [ "$FILTER" = "stage19" ]; then
     # 仅 stage19 配置
     S19_DATE="${CONFIG_DATE:-$(find_stage19_date)}"
@@ -189,6 +251,26 @@ else
         if [ -n "$S21_DATE" ]; then
             cfg_file="${CONFIG_DIR}/stage21_funcgroup_w4a4_${S21_DATE}.json"
             add_task "stage21_funcgroup_w4a4_${S21_DATE}" "$cfg_file"
+        fi
+        # stage23 (模态加权搜索)
+        S23_DATE="${CONFIG_DATE:-$(find_stage23_date)}"
+        if [ -n "$S23_DATE" ]; then
+            cfg_file="${CONFIG_DIR}/stage23_modality_weighted_w4a4_${S23_DATE}.json"
+            add_task "stage23_modality_weighted_w4a4_${S23_DATE}" "$cfg_file"
+        fi
+        # stage24 (attention fidelity)
+        S24_DATE="${CONFIG_DATE:-$(find_stage24_date)}"
+        if [ -n "$S24_DATE" ]; then
+            cfg_file="${CONFIG_DIR}/stage24_attn_fidelity_w4a4_${S24_DATE}.json"
+            add_task "stage24_attn_fidelity_w4a4_${S24_DATE}" "$cfg_file"
+        fi
+        # stage25 (hard/random 两组)
+        S25_DATE="${CONFIG_DATE:-$(find_stage25_date)}"
+        if [ -n "$S25_DATE" ]; then
+            cfg_file="${CONFIG_DIR}/stage25_hard_w4a4_${S25_DATE}.json"
+            add_task "stage25_hard_w4a4_${S25_DATE}" "$cfg_file"
+            cfg_file="${CONFIG_DIR}/stage25_random_w4a4_${S25_DATE}.json"
+            add_task "stage25_random_w4a4_${S25_DATE}" "$cfg_file"
         fi
     fi
 fi

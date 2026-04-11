@@ -10,7 +10,7 @@
 
 # ===================== 配置 =====================
 
-MODEL_PATH="/data/14thdd/users/honglianglu/InternVL-U/model"
+MODEL_PATH="/home/honglianglu/data/InternVL-U/model"
 
 MME_DATA_ROOT="/home/honglianglu/data/Bagel/data/mme/MME_Benchmark_release_version"
 
